@@ -1,0 +1,10 @@
+{
+  "name": "vezejai",
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "dependencies": {
+    "bootstrap": "^3.3.7"
+  }
+}

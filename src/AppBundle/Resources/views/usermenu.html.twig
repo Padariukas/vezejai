@@ -1,0 +1,10 @@
+{% block left_menu %}
+<ul class="list-group" >
+    <li class="list-group-item disabled">Vartotojo meniu</li>
+    <li class="list-group-item"><a href="{{ path('fos_user_profile_show') }}">Mano informacija</a></li>
+    <li class="list-group-item"><a href="{{ path('fos_user_profile_edit') }}">Keisti duomenis</a></li>
+    <li class="list-group-item"><a href="{{ path('fos_user_change_password') }}">Keisti slaptazodi</a></li>
+    <li class="list-group-item"><a href="{{ path('fos_user_security_logout') }}">Atsijungti</a></li>
+</ul>
+
+{% endblock %}
