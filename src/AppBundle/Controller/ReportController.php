@@ -20,7 +20,7 @@ class ReportController extends Controller
      * @Route("/get_money", name="get_money")
      */
 
-    public function allPayedOrder(Request $request)
+    public function allPayedOrderAction(Request $request)
     {
 
         $form = $this->createForm(dataFormType::class);
@@ -31,43 +31,63 @@ class ReportController extends Controller
         $form->handleRequest($request);
 
         $suma = '';
+        $nuo = '';
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->get('laikotarpis')->getData();
+            $nuo = $data;
             $em = $this->getDoctrine()->getManager();
-            $saskaitaRepository = $em->getRepository('AppBundle:saskaita');
-            $query = $saskaitaRepository->createQueryBuilder('saskaita');
-            $query->select('SUM(saskaita.suma)')
-                ->where('saskaita.apmokejimoData >=:data')
-                ->andWhere('saskaita.apmoketa = :apmoketa')
+            $saskaitaRepository = $em->getRepository('AppBundle:uzsakymas');
+            $query = $saskaitaRepository->createQueryBuilder('uzsakymas');
+            $query->select('uzsakymas')
+                ->leftJoin('uzsakymas.saskaita', 's')
+                ->where('s.apmokejimoData >=:data')
+                ->andWhere('s.apmoketa = :apmoketa')
                 ->setParameter('data', $data)
                 ->setParameter('apmoketa', true);
 
-            $suma = $query->getQuery()->getSingleScalarResult();
+            $suma = $query->getQuery()->getResult();
+
+
         }
 
-        return $this->render('@App/report/report.html.twig', array('suma' => $suma, 'form' => $form->createView()));
+        return $this->render('@App/report/report.html.twig', array('suma' => $suma, 'nuo' => $nuo, 'form' => $form->createView()));
     }
 
 
     /**
-     * @Route("/get_all_unpayed", name="get_all_unpayed")
+     * @Route("/get_all_order_in_period", name="get_all_order_in_period")
      */
 
-    public function getAllUnpayedOrder()
+    public function getAllOrderAction(Request $request)
     {
 
-        $em = $this->getDoctrine()->getManager();
-        $uzsakymasRepository = $em->getRepository('AppBundle:uzsakymas');
-        $query = $uzsakymasRepository->createQueryBuilder('uzsakymas');
-        $query->select('uzsakymas', 'uzsakymas.saskaita')
-            ->where('uzsakymas.saskaita.apmoketa >=:apmoketa')
-            ->setParameter('apmoketa', false);
+        $form = $this->createForm(dataFormType::class);
+        $form->add('submit', SubmitType::class, array(
+            'label' => 'Gauti duomenis',
+            'attr' => array('class' => 'btn btn-default pull-right')));
 
-        $allUnpayed = $query->getQuery()->getSingleScalarResult();
-        var_dump($allUnpayed);
+        $form->handleRequest($request);
 
-        return $this->render('@App/report/report.html.twig', array());
+        $suma = '';
+        $nuo = '';
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->get('laikotarpis')->getData();
+            $nuo = $data;
+            $em = $this->getDoctrine()->getManager();
+            $saskaitaRepository = $em->getRepository('AppBundle:uzsakymas');
+            $query = $saskaitaRepository->createQueryBuilder('uzsakymas');
+            $query->select('uzsakymas')
+                ->leftJoin('uzsakymas.saskaita', 's')
+                ->where('s.apmokejimoData >=:data')
+                ->andWhere('s.apmoketa = :apmoketa')
+                ->setParameter('data', $data)
+                ->setParameter('apmoketa', true);
+
+            $suma = $query->getQuery()->getResult();
+        }
+        return $this->render('@App/report/report2.html.twig', array('suma' => $suma, 'nuo' => $nuo, 'form' => $form->createView()));
     }
 
 }

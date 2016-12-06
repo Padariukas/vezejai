@@ -8,14 +8,16 @@
 </li>
 
 <li>
-    <a href="{{ path('new_order') }}"><span class="glyphicon glyphicon-new-window"> Vartotojų valdymas</span></a>
+    <a href="{{ path('get_all_user') }}"><span class="glyphicon glyphicon-new-window"> Vartotojų valdymas</span></a>
 </li>
 <li>
     <a href="{{ path('get_user_order') }}"><span class="glyphicon glyphicon-th-list"> Mano užsakymai</span></a>
 </li>
+<h3>Ataskaitos</h3>
 <li>
-    <a href="{{ path('get_user_order') }}"><span class="glyphicon glyphicon-th-list"> Ataskaitos</span></a>
+    <a href="{{ path('get_money') }}"><span class="glyphicon glyphicon-th-list"> Pervežta prekių už</span></a>
 </li>
 <li>
-    <a href=""><span class="glyphicon glyphicon-log-out"> Empty</span></a>
+    <a href="{{ path('get_all_order_in_period') }}"><span
+                class="glyphicon glyphicon-th-list"> Pervežtų prekių kiekis</span></a>
 </li>

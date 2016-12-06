@@ -12,7 +12,6 @@ use AppBundle\Form\prekeType;
 use AppBundle\Form\uzsakymasType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\AbstractType;
@@ -145,6 +144,7 @@ class BuyController extends Controller
     /**
      * @Route("/new_orders_list", name="new_orders_list")
      */
+
     //nauju uzsakymu atvaizdavimas
     public function getNewOrdersAction()
     {

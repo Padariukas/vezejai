@@ -1,0 +1,26 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Vartotojo ID</th>
+            <th>Vardas</th>
+            <th>Istrinti?</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for u in users %}
+
+            <tr>
+                <td> {{ u.id }} </td>
+                <td> {{ u.username }} </td>
+                <td><a href="" onclick="return confirm('Ar tikrai norite atšaukti?')">istrinti</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
