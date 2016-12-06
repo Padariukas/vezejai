@@ -1,10 +1,21 @@
-{% block left_menu %}
-<ul class="list-group" >
-    <li class="list-group-item disabled">Vartotojo meniu</li>
-    <li class="list-group-item"><a href="{{ path('fos_user_profile_show') }}">Mano informacija</a></li>
-    <li class="list-group-item"><a href="{{ path('fos_user_profile_edit') }}">Keisti duomenis</a></li>
-    <li class="list-group-item"><a href="{{ path('fos_user_change_password') }}">Keisti slaptazodi</a></li>
-    <li class="list-group-item"><a href="{{ path('fos_user_security_logout') }}">Atsijungti</a></li>
-</ul>
-
-{% endblock %}
+<h2>Mano meniu</h2>
+<hr>
+<li>
+    <a href="{{ path('new_order') }}"><span class="glyphicon glyphicon-new-window"> Naujas užsakymas</span></a>
+</li>
+<li>
+    <a href="{{ path('get_user_order') }}"><span class="glyphicon glyphicon-th-list"> Mano užsakymai</span></a>
+</li>
+<li>
+    <a href="{{ path('fos_user_profile_show') }}"><span
+                class="glyphicon glyphicon glyphicon-flag"> Mano informacija</span></a>
+</li>
+<li>
+    <a href="{{ path('fos_user_change_password') }}"><span class="glyphicon glyphicon-pencil"> Keisti slaptazodi</span></a>
+</li>
+<li>
+    <a href="{{ path('fos_user_profile_edit') }}"><span class="glyphicon glyphicon-pencil"> Redaguoti profilį</span></a>
+</li>
+<li>
+    <a href="{{ path('fos_user_security_logout') }}"><span class="glyphicon glyphicon-log-out"> Atsijungti</span></a>
+</li>

@@ -1,0 +1,64 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Užsakymo numeris</th>
+            <th>Mokėjimo metodas</th>
+            <th>Prekė</th>
+            <th>Suma</th>
+            <th>Užsakymo statusas</th>
+            <th>Atšaukti</th>
+        </tr>
+        </thead>
+        <tbody>
+
+
+        {% for uzsakymas in all %}
+
+            <tr>
+                <td>{{ uzsakymas.id }}</td>
+                <td>{% if uzsakymas.metodas.metodas ==1 %}
+                        Mokėjimas grynai
+                    {% elseif uzsakymas.metodas.metodas ==2 %}
+                        Mokėjimas pavedimu
+                    {% endif %}
+                </td>
+                <td><a href="{{ path('edit_item',{'id':uzsakymas.prekesId}) }}">{{ uzsakymas.preke.pavadinimas }}</a>
+                </td>
+                <td>
+                    {{ uzsakymas.saskaita.suma|default("") }}
+                </td>
+                <td>{% if uzsakymas.busena.busena == 1 %}
+                        <a href="{{ path('change_order_status',{'id':uzsakymas.id}) }}">Tikrinami duomenys</a>
+                    {% elseif uzsakymas.busena.busena == 2 %}
+                        <a href="{{ path('change_order_status',{'id':uzsakymas.id}) }}">Laukiama apmokėjimo</a>
+                    {% elseif uzsakymas.busena.busena == 3 %}
+                        <a href="{{ path('change_order_status',{'id':uzsakymas.id}) }}">Vykdomas pirkimas</a>
+                    {% elseif uzsakymas.busena.busena == 4 %}
+                        <a href="{{ path('change_order_status',{'id':uzsakymas.id}) }}">Prekė gauta į užsienio
+                            sandėlį</a>
+                    {% elseif uzsakymas.busena.busena == 5 %}
+                        <a href="{{ path('change_order_status',{'id':uzsakymas.id}) }}">Prekė transportuojama į
+                            Lietuvą</a>
+                    {% elseif uzsakymas.busena.busena == 6 %}
+                        <a href="{{ path('change_order_status',{'id':uzsakymas.id}) }}">Prekė paruošta atsiimti</a>
+                    {% elseif uzsakymas.busena.busena == 7 %}
+                        <a href="{{ path('change_order_status',{'id':uzsakymas.id}) }}">Užsakymas įvykdytas</a>
+                    {% endif %}
+
+                </td>
+                <td>{% if uzsakymas.busena.busena == 1 or uzsakymas.busena.busena == 2 %}
+                        <a href="{{ path('delete_order', {'id': uzsakymas.id}) }}"
+                           onclick="return confirm('Ar tikrai norite atšaukti?')">Atšaukti</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+{% endblock %}

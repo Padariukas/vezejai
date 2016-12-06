@@ -12,6 +12,7 @@
     {% block stylesheets %}
         <!-- Bootstrap core CSS -->
         <link href="{{ asset('assets/vendor/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('assets/css/simple-sidebar.css') }}" rel="stylesheet">
     {% endblock %}
     {% block javascripts %}
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -20,82 +21,107 @@
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
     {% endblock %}
-    <style>
-        .custom-navbar-fixed-left {
-
-            position: fixed;
-            border-radius: 0;
-            height: 100%;
-        }
-
-        .custom-navbar-fixed-left .navbar-nav > li {
-            float: none;  /* Cancel default li float: left */
-
-        }
-
-        .custom-navbar-fixed-left + .container {
-            padding-left: 160px;
-        }
-        </style>
 
 </head>
+<body style="background-image:url('{{ asset('assets/bg.jpg') }}')">
+<div id="wrapper">
 
-<body>
-<nav class="navbar navbar-inverse navbar-default navbar-fixed-left">
-    <div class="container">
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-static-top na" role="navigation" style="margin-bottom: 0">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Project name</a>
+            <a class="navbar-brand" href="index.html">LOGO</a>
         </div>
-        <div id="navbar" class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
+        <!-- /.navbar-header -->
+
+        <ul class="nav navbar-top-links navbar-right">
+
+            <li><a href="#">Pradžios puslapis</a></li>
+            <li><a href="#">Apie mus</a></li>
+            <li><a href="#">Atsiliepimai</a></li>
+            <li><a href="#">Kontaktai</a></li>
+            <li><a href="#">Kontaktai</a></li>
+            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                <!---- {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}
+                <a href="{{ path('fos_user_security_logout') }}">
+                    {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+                </a> -->
+            {% else %}
+                <li><a href="{{ path('fos_user_security_login') }}"> {{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
+                </li>
+                <li><a href="{{ path('fos_user_registration_register') }}">Registracija</a></li>
+            {% endif %}
+        </ul>
+        <!-- /.navbar-static-side -->
+    </nav>
+    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav navbar-collapse">
+                <ul class="nav" id="side-menu">
+                    {% include '@App/usermenu.html.twig' %}
+                    {% if is_granted('ROLE_ADMIN') %}
+                        {% include '@App/admin.html.twig' %}
+                    {% endif %}
+                </ul>
+            </div>
+            <!-- /.sidebar-collapse -->
         </div>
-        <div class="container">
-            <div class="text-right">
+    {% endif %}
+
+    <!-- Page Content -->
+    <div id="page-wrapper" {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %} style=" margin: 0 0 0 250px;"{% endif %}>
+        <div class="container-fluid">
+            <div class="row" style="border: none;
+            background-color: white;
+            opacity:0.85;
+            padding-bottom: 30px;">
                 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                    <div style="color: white">{{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
-                        <a href="{{ path('fos_user_security_logout') }}">
-                            {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
-                        </a></div>
-                {% endif %}
-            </div>
-        </div><!--/.nav-collapse -->
-    </div>
-</nav>
-
-{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-
-    <div class="navbar  custom-navbar-fixed-left">
-        {% include ('AppBundle::usermenu.html.twig') %}
-        <br>
-        {% include ('AppBundle::usermenu.html.twig') %}
-    </div>
-
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-9 col-lg-10">
-                <!-- your page content -->
-                {% block body %}{% endblock %}
+                <div class="col-lg-12">
+                    <h2 class="page-header"></h2>
+                </div>
+                <div class="col-sm-9 col-lg-10">
+                    {% for flash_message in app.session.flashBag.get('notice') %}
+                        <div class="flash-notice alert alert-success">
+                            {{ flash_message }}
+                        </div>
+                    {% endfor %}
+                    {% for flash_message in app.session.flashBag.get('warning') %}
+                        <div class="flash-notice alert alert-warning">
+                            {{ flash_message }}
+                        </div>
+                    {% endfor %}
+                    {% for flash_message in app.session.flashBag.get('error') %}
+                        <div class="flash-notice alert alert-danger">
+                            {{ flash_message }}
+                        </div>
+                    {% endfor %}
+                    {% block body %}{% endblock %}
+                </div>
             </div>
         </div>
+
+        {% elseif is_granted("IS_AUTHENTICATED_ANONYMOUSLY") %}
+            <div class="container">
+                {{ block('body') }}
+            </div>
+        {% endif %}
+
     </div>
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+</div>
+<!-- /.container-fluid -->
+</div>
+<!-- /#page-wrapper -->
 
-{% elseif is_granted("IS_AUTHENTICATED_ANONYMOUSLY") %}
-    <div class="container">
-        {{ block('body') }}
-        </div>
-{% endif %}
-
-</div><!-- /.container -->
+</div>
+<!-- /#wrapper -->
 
 
 <!-- Bootstrap core JavaScript

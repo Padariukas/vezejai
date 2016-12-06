@@ -1,0 +1,62 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Užsakymo numeris</th>
+            <th>Mokėjimo metodas</th>
+            <th>Prekė</th>
+            <th>Sąskaita</th>
+            <th>Užsakymo statusas</th>
+            <th>Atšaukti</th>
+            <th>Apmokėta?</th>
+        </tr>
+        </thead>
+        <tbody>
+
+
+        {% for newOrder in newOrders %}
+
+            <tr>
+                <td>{{ newOrder.id }}</td>
+                <td>{% if newOrder.metodas.metodas ==1 %}
+                        Mokėjimas grynai
+                    {% elseif newOrder.metodas.metodas ==2 %}
+                        Mokėjimas pavedimu
+                    {% endif %}
+                </td>
+                <td><a href="{{ path('edit_item',{'id':newOrder.prekesId}) }}">{{ newOrder.preke.pavadinimas }}</a></td>
+                <td>
+                    {% if newOrder.saskaita.suma|default("") == "" %}
+                        <a href="{{ path('create_payment',{'id':newOrder.saskaita.id,'orderId':newOrder.id}) }}">Formuoti
+                            saskata</a>
+                    {% elseif newOrder.saskaita.suma|default("") != "" %}
+                        {{ newOrder.saskaita.suma|default("") }}
+                    {% endif %}
+                </td>
+                <td>{% if newOrder.busena.busena == 1 %}
+                        <a href="{{ path('change_order_status',{'id': newOrder.id }) }}">Tikrinami duomenys</a>
+                    {% elseif newOrder.busena.busena == 2 %}
+                        <a href="{{ path('change_order_status',{'id': newOrder.id }) }}">Laukiama apmokėjimo</a>
+                    {% endif %}
+                </td>
+                <td>{% if newOrder.busena.busena == 1 or newOrder.busena.busena == 2 %}
+                        <a href="{{ path('delete_order', {'id': newOrder.id}) }}"
+                           onclick="return confirm('Ar tikrai norite atšaukti?')">Atšaukti</a>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if newOrder.saskaita.apmoketa|default(false) == false and newOrder.saskaita.suma|default("") != "" %}
+                        <a href="{{ path('payed', {'id': newOrder.id}) }}">Apmokėta</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+
+{% endblock %}

@@ -4,7 +4,7 @@
     <div class="alert-danger text-center glyphicon-bell">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 {% endif %}
 <br>
-<form class="form-inline" action="{{ path("fos_user_security_check") }}" method="post">
+<form class="form-block" style="width: 50%; margin: auto" action="{{ path("fos_user_security_check") }}" method="post">
     {% if csrf_token %}
         <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
     {% endif %}

@@ -9,6 +9,7 @@
           class="fos_user_registration_register">
         {{ form_errors(form) }}
         {{ form_widget(form.username, {'attr': {'class': 'form-control whitespace-bottom', 'placeholder': "Vartotojo vardas" }} ) }}
+        {{ form_errors(form.username) }}
         <br>
         {{ form_widget(form.email, {'attr': {'class': 'form-control whitespace-bottom', 'placeholder': "E-paštas"}} )}}
         {{ form_errors(form.email) }}
@@ -20,7 +21,14 @@
         <br>
         {#{{ form_label(form.plainPassword.second) }}#}
         {{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control whitespace-bottom', 'placeholder': form.plainPassword.vars.label}} ) }}
-
+        <br>
+        {{ form_widget(form.vardas, {'attr':{'class': 'form-control whitespace-bottom', 'placeholder': "Vardas" }}) }}
+        <br>
+        {{ form_widget(form.pavarde, {'attr':{'class': 'form-control whitespace-bottom', 'placeholder': "Pavardė" }}) }}
+        <br>
+        {{ form_widget(form.adresas, {'attr':{'class': 'form-control whitespace-bottom', 'placeholder': "Adresas" }}) }}
+        <br>
+        {{ form_widget(form.tel_nr, {'attr':{'class': 'form-control whitespace-bottom', 'placeholder': "Telefono numeris: 861111111" }}) }}
         {{ form_rest(form) }}
         <br>
         <div class="text-center">
