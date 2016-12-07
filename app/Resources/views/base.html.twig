@@ -41,6 +41,7 @@
 
         <ul class="nav navbar-top-links navbar-right">
 
+            <li><a href="{{ path('check_user_order') }}">Tikrinti užsakymą</a></li>
             <li><a href="{{ path('homepage') }}">Pradžios puslapis</a></li>
             <li><a href="{{ path('get_comments') }}">Atsiliepimai</a></li>
             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}

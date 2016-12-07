@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+   {% block body %}
+       {{ form_start(form) }}
+       {{ form_widget(form) }}
+       {{ form_end(form) }}
+
+       {% if busena == 1 %}
+           Tikrinami duomenys
+       {% elseif busena == 2 %}
+           Laukiama apmokėjimo
+       {% elseif busena == 3 %}
+           Vykdomas pirkimas
+       {% elseif busena == 4 %}
+           Prekė gauta į užsienio sandėlį
+       {% elseif busena == 5 %}
+           Prekė transportuojama į Lietuvą
+       {% elseif busena == 6 %}
+           Prekė paruošta atsiimti
+       {% elseif busena == 7 %}
+           Užsakymas įvykdytas
+       {% else %}
+           Užsakymas nerastas. Patiktinkite ID
+       {% endif %}
+   {% endblock %}

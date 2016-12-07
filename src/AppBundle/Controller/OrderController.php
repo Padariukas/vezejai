@@ -7,6 +7,7 @@ use AppBundle\Entity\uzsakymas;
 use AppBundle\Form\prekeType;
 use AppBundle\Form\uzsakymasType;
 use AppBundle\Form\uzsakymo_busena_EmptyType;
+use AppBundle\Form\uzsakymasIdType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -257,5 +258,28 @@ class OrderController extends Controller
 
         return $this->redirectToRoute('get_all_active_order');
 
+    }
+
+    /**
+     * @Route("/check_user_order", name="check_user_order")
+     *
+     */
+    public function getUserOrderOfflineAction(Request $request)
+    {
+        $order = "";
+        $form = $this->createForm(uzsakymasIdType::class);
+        $form->add('submit', SubmitType::class, array(
+            'label' => 'Tikrinti',
+            'attr' => array('class' => 'btn btn-default pull-right')));
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            if (!$order = $this->getDoctrine()->getRepository("AppBundle:uzsakymas")->find($form->getData())) {
+                $order = "Užsakymas tokiu numeriu nerastas";
+            } else {
+                $order = $order = $this->getDoctrine()->getRepository("AppBundle:uzsakymas")->find($form->getData())->getBusena()->getBusena();
+            }
+        }
+
+        return $this->render('@App/offline.html.twig', array('form' => $form->createView(), 'busena' => $order));
     }
 }
