@@ -1,0 +1,24 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+
+    {% for c in comments %}
+        <table class="table">
+            <thead>
+            <tr>
+                <th>{{ c.data|date('Y-m-d h:m:s') }}</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td> {{ c.vardas }} </td>
+                <td> {{ c.antraste }} </td>
+                <td>{{ c.tekstas }}</td>
+            </tr>
+            </tbody>
+        </table>
+    {% endfor %}
+
+
+{% endblock %}

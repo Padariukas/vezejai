@@ -30,7 +30,7 @@ class BuyController extends Controller
      */
     public function newOrderAction(Request $request)
     {
-        var_dump($this->container->get('request_stack')->getCurrentRequest()->getClientIp());
+        //var_dump($this->container->get('request_stack')->getCurrentRequest()->getClientIp());
         $time = new \DateTime('now');
         $user = $this->container->get('security.token_storage')->getToken()->getUser();
         $email = $user->getEmail();

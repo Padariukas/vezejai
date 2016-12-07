@@ -17,7 +17,8 @@
             <tr>
                 <td> {{ u.id }} </td>
                 <td> {{ u.username }} </td>
-                <td><a href="" onclick="return confirm('Ar tikrai norite atšaukti?')">istrinti</a></td>
+                <td><a href="{{ path('delete_user',{'id':u.id}) }}"
+                       onclick="return confirm('Ar tikrai norite atšaukti?')">istrinti</a></td>
             </tr>
         {% endfor %}
         </tbody>

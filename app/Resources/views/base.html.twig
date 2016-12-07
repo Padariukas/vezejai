@@ -35,17 +35,14 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.html">LOGO</a>
+            <a class="navbar-brand" href="{{ path('homepage') }}">VEZEJAI</a>
         </div>
         <!-- /.navbar-header -->
 
         <ul class="nav navbar-top-links navbar-right">
 
-            <li><a href="#">Pradžios puslapis</a></li>
-            <li><a href="#">Apie mus</a></li>
-            <li><a href="#">Atsiliepimai</a></li>
-            <li><a href="#">Kontaktai</a></li>
-            <li><a href="#">Kontaktai</a></li>
+            <li><a href="{{ path('homepage') }}">Pradžios puslapis</a></li>
+            <li><a href="{{ path('get_comments') }}">Atsiliepimai</a></li>
             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                 <!---- {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}
                 <a href="{{ path('fos_user_security_logout') }}">

@@ -57,8 +57,16 @@ class CommentController extends Controller
 
     }
 
+    /**
+     *
+     * @Route("/get_comments", name="get_comments")
+     */
+
     public function getCommentsAction()
     {
 
+        $comments = $this->getDoctrine()->getRepository('AppBundle:atsiliepimas')->find;
+
+        return $this->render('AppBundle:comment:allComments.html.twig', array('comments' => $comments));
     }
 }
